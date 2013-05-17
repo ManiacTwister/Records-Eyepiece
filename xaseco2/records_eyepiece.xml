@@ -292,7 +292,7 @@
 				<enabled>true</enabled>
 				<pos_x>-64.7</pos_x>
 				<pos_y>32.9</pos_y>
-				<entries>30</entries>
+				<entries>15</entries>
 				<topcount>3</topcount>
 			</time_attack>
 
@@ -433,6 +433,69 @@
 		</gamemode>
 	</local_records>
 
+<!-- BEGIN Historical -->
+	<historical_records>
+		<title>Historical Records</title>
+		<width>15.5</width>
+
+		<icon_style>BgRaceScore2</icon_style>
+		<icon_substyle>LadderRank</icon_substyle>
+
+		<gamemode>
+			<script>
+				<enabled>false</enabled>					<!-- Unsupported, leave as is! -->
+			</script>
+
+			<rounds>
+				<enabled>true</enabled>
+				<pos_x>-64.7</pos_x>
+				<pos_y>2.5</pos_y>
+				<entries>14</entries>
+				<topcount>3</topcount>
+			</rounds>
+
+			<time_attack>
+				<enabled>true</enabled>
+				<pos_x>-64.7</pos_x>
+				<pos_y>2.4</pos_y>
+				<entries>15</entries>
+				<topcount>3</topcount>
+			</time_attack>
+
+			<team>
+				<enabled>true</enabled>
+				<pos_x>-64.7</pos_x>
+				<pos_y>2.5</pos_y>
+				<entries>14</entries>
+				<topcount>3</topcount>
+			</team>
+
+			<laps>
+				<enabled>true</enabled>
+				<pos_x>-64.7</pos_x>
+				<pos_y>2.5</pos_y>
+				<entries>13</entries>
+				<topcount>3</topcount>
+			</laps>
+
+			<cup>
+				<enabled>true</enabled>
+				<pos_x>-64.7</pos_x>
+				<pos_y>2.5</pos_y>
+				<entries>14</entries>
+				<topcount>3</topcount>
+			</cup>
+
+			<stunts>
+				<enabled>false</enabled>
+				<pos_x>49.2</pos_x>
+				<pos_y>6.6</pos_y>
+				<entries>10</entries>
+				<topcount>3</topcount>
+			</stunts>
+		</gamemode>
+	</historical_records>
+<!-- END Historical -->
 
 	<live_rankings>
 		<title>Live Rankings</title>
@@ -1168,6 +1231,9 @@
 			<dedimania_records>true</dedimania_records>
 			<gerymania_records>false</gerymania_records>
 			<local_records>true</local_records>
+			<!-- BEGIN Historical -->
+			<historical_records>true</historical_records>
+			<!-- END Historical -->
 			<live_rankings>true</live_rankings>
 		</allow>
 	</nicemode>

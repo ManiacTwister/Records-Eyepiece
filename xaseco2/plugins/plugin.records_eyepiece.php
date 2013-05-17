@@ -98,6 +98,9 @@
  * 91847			id for manialink TopVisitors (at Score)
  * 91848			id for manialink TopActivePlayers (at Score)
  * 91849			id for manialink ManiaExchangeWidget
+ * // BEGIN Historical //
+ * 91850			id for manialink HistoricalRecordsWidget (at all Gamemodes)
+ * // END Historical //
  * 91850 - 91898		UNUSED BUT RESERVED
  * 91899			id for manialink ManiaScripts
  * 918100 to 918120		id for manialink ImagePreload
@@ -130,6 +133,9 @@
  *  91822			id for action for filter only 'Canyon' Maps
  *  91823			id for action for filter only 'Stadium' Maps
  *  91824			id for action for filter only 'Valley' Maps
+ * // BEGIN Historical //
+ *  91825			id for action for show LocalRecordsWindow
+ * // END Historical //
  *  91825  to 91839		UNUSED BUT RESERVED (for Filter options)
  *  91840			id for action for filter only jukeboxed Maps
  *  91841			id for action for filter only no recent Maps
@@ -200,6 +206,10 @@
  * -9187250 to -9187259		id for action ToplistWindow previous page in Table (max. 10 pages)
  *  9187250 to  9187259		id for action ToplistWindow next page in Table (max. 10 pages)
  * -9188000 to -91812999	id for action select an Author from the MapAuthorlistWindow to filter (max. 5000 Authors total)
+ * // BEGIN Historical //
+ * -91815000 to -91815050		id for action HistoricalRecordsWindow previous page in Table (max. 50 pages a 100 entries = 5000 total)
+ *  91815000 to  91815050		id for action HistoricalRecordsWindow next page in Table (max. 50 pages a 100 entries = 5000 total)
+ * // END Historical //
  */
 
 Aseco::registerEvent('onSync',				're_onSync');
@@ -360,7 +370,7 @@ function re_onSync ($aseco, $reload = null) {
 	$re_config['ROUND_SCORE'][0]['GAMEMODE'][0]['TIME_ATTACK'][0]['ENABLED'][0]		= 'false';	// TimeAttack
 	$re_config['ROUND_SCORE'][0]['GAMEMODE'][0]['STUNTS'][0]['ENABLED'][0]			= 'false';	// Stunts
 
-	$widgets = array('DEDIMANIA_RECORDS', 'GERYMANIA_RECORDS', 'LOCAL_RECORDS', 'LIVE_RANKINGS', 'ROUND_SCORE');
+	$widgets = array('DEDIMANIA_RECORDS', 'GERYMANIA_RECORDS', 'LOCAL_RECORDS', 'LIVE_RANKINGS', 'ROUND_SCORE'/* BEGIN Historical */, 'HISTORICAL_RECORDS'/* END Historical */);
 	$gamemodes = array(
 		'SCRIPT'	=> Gameinfo::SCPT,
 		'ROUNDS'	=> Gameinfo::RNDS,
@@ -623,6 +633,11 @@ function re_onSync ($aseco, $reload = null) {
 	if ( ($re_config['LOCAL_RECORDS'][0]['WIDTH'][0] < 15.5) || (!$re_config['LOCAL_RECORDS'][0]['WIDTH'][0]) ) {
 		$re_config['LOCAL_RECORDS'][0]['WIDTH'][0] = 15.5;
 	}
+	/* BEGIN Historical */
+	if ( ($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] < 15.5) || (!$re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0]) ) {
+		$re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] = 15.5;
+	}
+	/* END Historical */
 	if ( ($re_config['LIVE_RANKINGS'][0]['WIDTH'][0] < 15.5) || (!$re_config['LIVE_RANKINGS'][0]['WIDTH'][0]) ) {
 		$re_config['LIVE_RANKINGS'][0]['WIDTH'][0] = 15.5;
 	}
@@ -700,6 +715,12 @@ function re_onSync ($aseco, $reload = null) {
 	$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
 	$re_config['States']['LocalRecords']['NoRecordsFound']		= false;
 	$re_config['States']['LocalRecords']['ChkSum']			= false;
+	/* BEGIN Historical */
+	$re_config['States']['HistoricalRecords']['NeedUpdate']		= true;
+	$re_config['States']['HistoricalRecords']['UpdateDisplay']		= true;
+	$re_config['States']['HistoricalRecords']['NoRecordsFound']		= false;
+	$re_config['States']['HistoricalRecords']['ChkSum']			= false;
+	/* END Historical */
 	$re_config['States']['LiveRankings']['NeedUpdate']		= true;			// Interact with onPlayerFinish
 	$re_config['States']['LiveRankings']['UpdateDisplay']		= true;
 	$re_config['States']['LiveRankings']['NoRecordsFound']		= false;
@@ -780,6 +801,9 @@ function re_onSync ($aseco, $reload = null) {
 	$re_scores['DedimaniaRecords']			= array();
 	$re_scores['GerymaniaRecords']			= array();
 	$re_scores['LocalRecords']			= array();
+	/* BEGIN Historical */
+	$re_scores['HistoricalRecords']			= array();
+	/* END Historical */
 	$re_scores['LiveRankings']			= array();
 	$re_scores['RoundScore']			= array();
 	$re_scores['RoundScorePB']			= array();
@@ -843,7 +867,10 @@ function re_onSync ($aseco, $reload = null) {
 	$re_cache['GerymaniaRecords']['NiceMode']	= false;
 	$re_cache['LocalRecords']['NiceMode']		= false;
 	$re_cache['LiveRankings']['NiceMode']		= false;
-	$widgets = array('DEDIMANIA_RECORDS', 'GERYMANIA_RECORDS', 'LOCAL_RECORDS', 'LIVE_RANKINGS', 'ROUND_SCORE');
+	/* BEGIN Historical */
+	$re_cache['HistoricalRecords']['NiceMode']		= false;
+	/* END Historical */
+	$widgets = array('DEDIMANIA_RECORDS', 'GERYMANIA_RECORDS', 'LOCAL_RECORDS', 'LIVE_RANKINGS', 'ROUND_SCORE'/* BEGIN Historical */, 'HISTORICAL_RECORDS'/* END Historical */);
 	foreach ($widgets as &$widget) {
 		foreach (range(0, 6) as $gamemode) {
 			if ( ($widget == 'DEDIMANIA_RECORDS') && (($re_config[$widget][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['DEDIMANIA_RECORDS'][0] == true) && ($re_config['States']['NiceMode'] == true))) ) {
@@ -861,6 +888,13 @@ function re_onSync ($aseco, $reload = null) {
 				$re_cache['LocalRecords'][$gamemode]['WidgetHeader'] = $build['header'];
 				$re_cache['LocalRecords'][$gamemode]['WidgetFooter'] = $build['footer'];
 			}
+			/* BEGIN Historical */
+			if ( ($widget == 'HISTORICAL_RECORDS') && (($re_config[$widget][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['HISTORICAL_RECORDS'][0] == true) && ($re_config['States']['NiceMode'] == true))) ) {
+				$build = re_buildHistoricalRecordsWidgetBody($gamemode);
+				$re_cache['HistoricalRecords'][$gamemode]['WidgetHeader'] = $build['header'];
+				$re_cache['HistoricalRecords'][$gamemode]['WidgetFooter'] = $build['footer'];
+			}
+			/* END Historical */
 			if ( ($widget == 'LIVE_RANKINGS') && (($re_config[$widget][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['LIVE_RANKINGS'][0] == true) && ($re_config['States']['NiceMode'] == true))) ) {
 				$build = re_buildLiveRankingsWidgetBody($gamemode);
 				$re_cache['LiveRankings'][$gamemode]['WidgetHeader'] = $build['header'];
@@ -2163,8 +2197,11 @@ function chat_eyepiece ($aseco, $command) {
 		$re_cache['PlayerStates'][$player->login]['DedimaniaRecords'] = -1;
 		$re_cache['PlayerStates'][$player->login]['GerymaniaRecords'] = -1;
 		$re_cache['PlayerStates'][$player->login]['LocalRecords'] = -1;
+		/* BEGIN Historical */
+		$re_cache['PlayerStates'][$player->login]['HistoricalRecords'] = -1;
+		/* END Historical */
 		$re_cache['PlayerStates'][$player->login]['LiveRankings'] = -1;
-		re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true));
+		re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true/* BEGIN Historical */, 'HistoricalRecords' => true /* END Historical */));
 
 		if ($re_config['MUSIC_WIDGET'][0]['ENABLED'][0] == true) {
 			// Display the Music Widget to given Player
@@ -2409,6 +2446,9 @@ function chat_eyeset ($aseco, $command) {
 		$re_config['States']['DedimaniaRecords']['UpdateDisplay']	= true;
 		$re_config['States']['GerymaniaRecords']['UpdateDisplay']	= true;
 		$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
+		/* BEGIN Historical */
+		$re_config['States']['HistoricalRecords']['UpdateDisplay']		= true;
+		/* END Historical */
 		$re_config['States']['LiveRankings']['UpdateDisplay']		= true;
 	}
 	else if ( preg_match("/^playermarker (true|false)$/i", $command['params']) ) {
@@ -2421,6 +2461,9 @@ function chat_eyeset ($aseco, $command) {
 		$re_config['States']['DedimaniaRecords']['UpdateDisplay']	= true;
 		$re_config['States']['GerymaniaRecords']['UpdateDisplay']	= true;
 		$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
+		/* BEGIN Historical */
+		$re_config['States']['HistoricalRecords']['UpdateDisplay']		= true;
+		/* END Historical */
 	}
 	else {
 		$message = '{#admin}>> Did not found any possible parameter to set!';
@@ -2713,8 +2756,11 @@ function re_toggleWidgets ($aseco, $command) {
 				$re_cache['PlayerStates'][$player->login]['DedimaniaRecords'] = -1;
 				$re_cache['PlayerStates'][$player->login]['GerymaniaRecords'] = -1;
 				$re_cache['PlayerStates'][$player->login]['LocalRecords'] = -1;
+				/* BEGIN Historical */
+				$re_cache['PlayerStates'][$player->login]['HistoricalRecords'] = -1;
+				/* END Historical */
 				$re_cache['PlayerStates'][$player->login]['LiveRankings'] = -1;
-				re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true));
+				re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true/* BEGIN Historical */, 'HistoricalRecords' => true/* END Historical */));
 
 				if ($re_config['MUSIC_WIDGET'][0]['ENABLED'][0] == true) {
 					// Display the Music Widget to given Player
@@ -3002,6 +3048,9 @@ function re_onPlayerConnect ($aseco, $player) {
 	$re_cache['PlayerStates'][$player->login]['DedimaniaRecords']	= false;
 	$re_cache['PlayerStates'][$player->login]['GerymaniaRecords']	= false;
 	$re_cache['PlayerStates'][$player->login]['LocalRecords']	= false;
+	/* BEGIN Historical */
+	$re_cache['PlayerStates'][$player->login]['HistoricalRecords']	= false;
+	/* END Historical */
 	$re_cache['PlayerStates'][$player->login]['LiveRankings']	= false;
 	$re_cache['PlayerStates'][$player->login]['FinishScore']	= -1;
 
@@ -3135,10 +3184,13 @@ function re_onPlayerConnect ($aseco, $player) {
 			$re_config['States']['DedimaniaRecords']['UpdateDisplay']	= true;
 			$re_config['States']['GerymaniaRecords']['UpdateDisplay']	= true;
 			$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
+			/* BEGIN Historical */
+			$re_cache['PlayerStates'][$player->login]['HistoricalRecords']	= false;
+			/* END Historical */
 		}
 
 		// Now the connected Player need all Widgets to be displayed, not only that where he/she has a record
-		re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true));
+		re_buildRecordWidgets($player, array('DedimaniaRecords' => true, 'GerymaniaRecords' => true, 'LocalRecords' => true, 'LiveRankings' => true/* BEGIN Historical */, 'HistoricalRecords' => true/* END Historical */));
 	}
 
 	// Set ActionKeys
@@ -3600,6 +3652,14 @@ function re_onPlayerManialinkPageAnswer ($aseco, $answer) {
 		$widgets .= re_buildLocalRecordsWindow(0);
 
 	}
+	/* BEGIN Historical */
+	else if ($answer[2] == $re_config['ManialinkId'] .'25') {
+
+		// Show the LocalRecordsWindow
+		$widgets .= re_buildHistoricalRecordsWindow(0);
+
+	}
+	/* END HISTORICAL */
 	else if ($answer[2] == $re_config['ManialinkId'] .'06') {
 
 		// Show the LiveRankingsWindow
@@ -4003,6 +4063,22 @@ function re_onPlayerManialinkPageAnswer ($aseco, $answer) {
 		$widgets .= re_buildLocalRecordsWindow($page);
 
 	}
+	/* BEGIN Historical */
+	else if ( ($answer[2] <= -(int)$re_config['ManialinkId'] .'15000') && ($answer[2] >= -(int)$re_config['ManialinkId'] .'15050') ) {
+
+		// Get the wished Page
+		$page = intval( str_replace($re_config['ManialinkId'], '', abs($answer[2])) - 15000 );
+		$widgets .= re_buildHistoricalRecordsWindow($page);
+
+	}
+	else if ( ($answer[2] >= (int)$re_config['ManialinkId'] .'15000') && ($answer[2] <= (int)$re_config['ManialinkId'] .'15050') ) {
+
+		// Get the wished Page
+		$page = intval( str_replace($re_config['ManialinkId'], '', $answer[2]) - 15000 );
+		$widgets .= re_buildHistoricalRecordsWindow($page);
+
+	}
+	/* END Historical */
 	else if ( ($answer[2] <= -(int)$re_config['ManialinkId'] .'150') && ($answer[2] >= -(int)$re_config['ManialinkId'] .'152') ) {
 
 		// Get the wished Page
@@ -4329,7 +4405,7 @@ function re_onDedimaniaRecordsLoaded ($aseco, $RecsValid) {
 	if ( ( isset($dedi_db['Challenge']['Records']) ) && (count($dedi_db['Challenge']['Records']) > 0) ) {
 		// Records are loaded, now we can get them into 'DedimaniaRecords' and force reload of the DedimaniaRecordsWidget
 		$re_config['States']['DedimaniaRecords']['NeedUpdate']		= true;
-		re_buildRecordWidgets(false, array('DedimaniaRecords' => true, 'GerymaniaRecords' => false, 'LocalRecords' => false, 'LiveRankings' => false));
+		re_buildRecordWidgets(false, array('DedimaniaRecords' => true, 'GerymaniaRecords' => false, 'LocalRecords' => false, 'LiveRankings' => false/* BEGIN Historical */, 'HistoricalRecords' => false/* END Historical */));
 	}
 }
 
@@ -4363,7 +4439,7 @@ function re_onGerymaniaRecordsLoaded ($aseco, $gery_db) {
 	// Records are loaded, now we can get them into 'GerymaniaRecords' and force reload of the GerymaniaRecordsWidget
 	$re_config['States']['GerymaniaRecords']['NeedUpdate']		= true;
 	$re_config['States']['GerymaniaRecords']['UpdateDisplay']	= true;
-	re_buildRecordWidgets(false, array('DedimaniaRecords' => false, 'GerymaniaRecords' => true, 'LocalRecords' => false, 'LiveRankings' => false));
+	re_buildRecordWidgets(false, array('DedimaniaRecords' => false, 'GerymaniaRecords' => true, 'LocalRecords' => false, 'LiveRankings' => false/* BEGIN Historical */, 'HistoricalRecords' => false/* END Historical */));
 }
 
 /*
@@ -4998,6 +5074,9 @@ function re_onBeginMap ($aseco, $map_item) {
 		$re_cache['PlayerStates'][$player->login]['DedimaniaRecords']	= false;
 		$re_cache['PlayerStates'][$player->login]['GerymaniaRecords']	= false;
 		$re_cache['PlayerStates'][$player->login]['LocalRecords']	= false;
+		/* BEGIN Historical */
+		$re_cache['PlayerStates'][$player->login]['HistoricalRecords']	= false;
+		/* BEGIN Historical */
 		$re_cache['PlayerStates'][$player->login]['LiveRankings']	= false;
 		$re_cache['PlayerStates'][$player->login]['FinishScore']	= -1;
 
@@ -5228,6 +5307,11 @@ function re_onBeginMap2 ($aseco, $map_item) {
 	$re_config['States']['LocalRecords']['NeedUpdate']		= true;
 	$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
 	$re_config['States']['LocalRecords']['NoRecordsFound']		= false;
+	/* BEGIN Historical */
+	$re_config['States']['HistoricalRecords']['NeedUpdate']		= true;
+	$re_config['States']['HistoricalRecords']['UpdateDisplay']		= true;
+	$re_config['States']['HistoricalRecords']['NoRecordsFound']		= false;
+	/* END Historical */
 	$re_config['States']['LiveRankings']['NeedUpdate']		= true;
 	$re_config['States']['LiveRankings']['UpdateDisplay']		= true;
 	$re_config['States']['LiveRankings']['NoRecordsFound']		= false;
@@ -5257,6 +5341,9 @@ function re_onBeginMap2 ($aseco, $map_item) {
 	$re_config['States']['DedimaniaRecords']['UpdateDisplay']		= false;
 	$re_config['States']['GerymaniaRecords']['UpdateDisplay']		= false;
 	$re_config['States']['LocalRecords']['UpdateDisplay']			= false;
+	/* BEGIN Historical */
+	$re_config['States']['HistoricalRecords']['UpdateDisplay']			= false;
+	/* END Historical */
 	$re_config['States']['LiveRankings']['UpdateDisplay']			= false;
 
 	// Set next refresh timestamp
@@ -5475,6 +5562,11 @@ function re_onRestartMap2 ($aseco, $map_item) {
 	$re_config['States']['LocalRecords']['NeedUpdate']		= true;
 	$re_config['States']['LocalRecords']['UpdateDisplay']		= true;
 	$re_config['States']['LocalRecords']['NoRecordsFound']		= false;
+	/* BEGIN Historical */
+	$re_config['States']['HistoricalRecords']['NeedUpdate']		= true;
+	$re_config['States']['HistoricalRecords']['UpdateDisplay']		= true;
+	$re_config['States']['HistoricalRecords']['NoRecordsFound']		= false;
+	/* END Historical */
 	$re_config['States']['LiveRankings']['NeedUpdate']		= true;
 	$re_config['States']['LiveRankings']['UpdateDisplay']		= true;
 	$re_config['States']['LiveRankings']['NoRecordsFound']		= false;
@@ -5491,6 +5583,9 @@ function re_onRestartMap2 ($aseco, $map_item) {
 	$re_config['States']['DedimaniaRecords']['UpdateDisplay']	= false;
 	$re_config['States']['GerymaniaRecords']['UpdateDisplay']	= false;
 	$re_config['States']['LocalRecords']['UpdateDisplay']		= false;
+	/* BEGIN Historical */
+	$re_config['States']['HistoricalRecords']['UpdateDisplay']		= false;
+	/* END Historical */
 	$re_config['States']['LiveRankings']['UpdateDisplay']		= false;
 
 	// Set next refresh timestamp
@@ -7001,6 +7096,9 @@ function re_buildRecordWidgets ($target = false, $force = false) {
 	$buildDedimaniaRecordsWidget = false;
 	$buildGerymaniaRecordsWidget = false;
 	$buildLocalRecordsWidget = false;
+	/* BEGIN Historical */
+	$buildHistoricalRecordsWidget = false;
+	/* END Historical */
 	$buildLiveRankingsWidget = false;
 	if ( ($re_config['DEDIMANIA_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['DEDIMANIA_RECORDS'][0] == true) && ($re_config['States']['NiceMode'] == true)) ) {
 		// Refresh the Widget only if it needs an update
@@ -7058,6 +7156,30 @@ function re_buildRecordWidgets ($target = false, $force = false) {
 			$buildLocalRecordsWidget = true;
 		}
 	}
+	/* BEGIN Historical */
+	if ( ($re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['HISTORICAL_RECORDS'][0] == true) && ($re_config['States']['NiceMode'] == true)) ) {
+		// Refresh the Widget only if it needs an update
+		if ($re_config['States']['HistoricalRecords']['NeedUpdate'] == true) {
+
+			// Get current Records
+			re_getHistoricalRecords($gamemode);
+
+			// Only set to false if records are loaded and displayed,
+			// but only if there are Records. If nobody reached a Record, do not try again.
+			if ($re_config['States']['HistoricalRecords']['NoRecordsFound'] == false) {
+				$re_config['States']['HistoricalRecords']['NeedUpdate'] = false;
+			}
+
+			// Say yes to build the Widget
+			$buildHistoricalRecordsWidget = true;
+		}
+		if ($re_config['States']['HistoricalRecords']['UpdateDisplay'] == true) {
+
+			// Say yes to build the Widget
+			$buildHistoricalRecordsWidget = true;
+		}
+	}
+	/* END Historical */
 	if ( ($re_config['LIVE_RANKINGS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) || (($re_config['NICEMODE'][0]['ALLOW'][0]['LIVE_RANKINGS'][0] == true) && ($re_config['States']['NiceMode'] == true)) ) {
 		// Refresh the Widget only if it needs an update
 		if ($re_config['States']['LiveRankings']['NeedUpdate'] == true) {
@@ -7089,6 +7211,9 @@ function re_buildRecordWidgets ($target = false, $force = false) {
 		$re_cache['DedimaniaRecords']['NiceMode']	= false;
 		$re_cache['GerymaniaRecords']['NiceMode']	= false;
 		$re_cache['LocalRecords']['NiceMode']		= false;
+		/* BEGIN Historical */
+		$re_cache['HistoricalRecords']['NiceMode']		= false;
+		/* END Historical */
 		$re_cache['LiveRankings']['NiceMode']		= false;
 
 		// If we switched to score, bail out
@@ -7120,6 +7245,11 @@ function re_buildRecordWidgets ($target = false, $force = false) {
 			if ( (($buildLocalRecordsWidget == true) || ($force['LocalRecords'] == true)) && ($re_config['LOCAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) ) {
 				$widgets .= re_buildLocalRecordsWidget($player->login, $player->data['RecordsEyepiece']['Prefs']['WidgetEmptyEntry'], $gamemode, $re_config['LOCAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
 			}
+			/* BEGIN Historical */
+			if ( (($buildHistoricalRecordsWidget == true) || ($force['HistoricalRecords'] == true)) && ($re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) ) {
+				$widgets .= re_buildHistoricalRecordsWidget($player->login, $player->data['RecordsEyepiece']['Prefs']['WidgetEmptyEntry'], $gamemode, $re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
+			}
+			/* END Historical */
 			if ( (($buildLiveRankingsWidget == true) || ($force['LiveRankings'] == true)) && ($re_config['LIVE_RANKINGS'][0]['GAMEMODE'][0][$gamemode][0]['ENABLED'][0] == true) ) {
 				$widgets .= re_buildLiveRankingsWidget($player->login, $player->data['RecordsEyepiece']['Prefs']['WidgetEmptyEntry'], $gamemode, $re_config['LIVE_RANKINGS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
 			}
@@ -7146,6 +7276,12 @@ function re_buildRecordWidgets ($target = false, $force = false) {
 			$re_cache['LocalRecords']['NiceMode'] = re_buildLocalRecordsWidget(false, false, $gamemode, $re_config['LOCAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
 			$re_config['States']['LocalRecords']['UpdateDisplay'] = true;
 		}
+		/* BEGIN Historical */
+		if ($buildHistoricalRecordsWidget == true) {
+			$re_cache['HistoricalRecords']['NiceMode'] = re_buildHistoricalRecordsWidget(false, false, $gamemode, $re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
+			$re_config['States']['HistoricalRecords']['UpdateDisplay'] = true;
+		}
+		/* END Historical */
 		if ($buildLiveRankingsWidget == true) {
 			$re_cache['LiveRankings']['NiceMode'] = re_buildLiveRankingsWidget(false, false, $gamemode, $re_config['LIVE_RANKINGS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0]);
 			$re_config['States']['LiveRankings']['UpdateDisplay'] = true;
@@ -7316,7 +7452,7 @@ function re_closeRaceDisplays ($login = false, $all = true) {
 	// 44 = CurrentRankingWidget
 	// 49 = ManiaExchangeWidget
 	if ($all == false) {
-		$ids = array(                    '11','12','13','14','30',                              '44','49');
+		$ids = array(                    '11','12','13','14','30',                              '44','49'/* BEGIN Historical */,'50'/* END Historical */);
 		// Do NOT close:
 		//  - GamemodeWidget
 		//  - VisitorsWidget
@@ -7330,7 +7466,7 @@ function re_closeRaceDisplays ($login = false, $all = true) {
 		//  - RecordsEyepieceAdvertising
 	}
 	else {
-		$ids = array('07','08','09','10','11','12','13','14','30','31','32','33','35','37','38','44','49');
+		$ids = array('07','08','09','10','11','12','13','14','30','31','32','33','35','37','38','44','49'/* BEGIN Historical */,'50'/* END Historical */);
 	}
 
 	$xml = '';
@@ -7795,6 +7931,46 @@ function re_getLocalRecords ($gamemode) {
 		$re_config['States']['LocalRecords']['NoRecordsFound'] = false;
 	}
 }
+
+/* BEGIN Historical */
+/*
+#///////////////////////////////////////////////////////////////////////#
+#									#
+#///////////////////////////////////////////////////////////////////////#
+*/
+
+function re_getHistoricalRecords ($gamemode) {
+	global $aseco, $re_scores;
+
+
+	// Clean array
+	$re_scores['HistoricalRecords'] = array();
+
+	if (count($aseco->server->historical->record_list) == 0) {
+		$re_config['States']['HistoricalRecords']['NoRecordsFound'] = true;
+	}
+	else {
+		$i = 0;
+		foreach ($aseco->server->historical->record_list as &$entry) {
+			$re_scores['HistoricalRecords'][$i]['rank']		= ($i+1);
+			$re_scores['HistoricalRecords'][$i]['login']		= $entry->player->login;
+			$re_scores['HistoricalRecords'][$i]['nickname']	= re_handleSpecialChars($entry->player->nickname);
+			if ($gamemode == Gameinfo::STNT) {
+				$re_scores['HistoricalRecords'][$i]['score'] = $entry->score;
+			}
+			else {
+				$re_scores['HistoricalRecords'][$i]['score'] = re_formatTime($entry->score);
+			}
+
+			$i++;
+		}
+		unset($entry);
+
+		$re_config['States']['HistoricalRecords']['ChkSum'] = re_buildRecordDigest('locals', $aseco->server->historical->record_list);
+		$re_config['States']['HistoricalRecords']['NoRecordsFound'] = false;
+	}
+}
+/* END Historical */
 
 /*
 #///////////////////////////////////////////////////////////////////////#
@@ -10387,6 +10563,169 @@ function re_buildLocalRecordsWidgetBody ($gamemode) {
 	return $build;
 }
 
+/* BEGIN Historical */
+/*
+#///////////////////////////////////////////////////////////////////////#
+#									#
+#///////////////////////////////////////////////////////////////////////#
+*/
+
+function re_buildHistoricalRecordsWidget ($login, $preset, $gamemode, $limit = 50) {
+	global $re_config, $re_scores, $re_cache;
+
+
+	// Set the Topcount
+	$topcount = $re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['TOPCOUNT'][0];
+
+	// Add Widget header
+	$xml = $re_cache['HistoricalRecords'][$gamemode]['WidgetHeader'];
+
+	// Build the entries if already loaded
+	if ( count($re_scores['HistoricalRecords']) > 0 ) {
+
+		$records = $re_scores['HistoricalRecords'];
+
+		// Create the Widget entries
+		$line = 0;
+		$behind_rankings = false;
+		foreach ($records as &$item) {
+
+			// Mark all Players behind the current with an orange icon instead a green one
+			if ($item['login'] == $login) {
+				$behind_rankings = true;
+			}
+
+			// Mark connected Players with a record
+			if ( ($re_config['FEATURES'][0]['MARK_ONLINE_PLAYER_RECORDS'][0] == true) && ($re_config['States']['NiceMode'] == false) && ($item['login'] != $login) ) {
+				$xml .= re_getConnectedPlayerRecord($item['login'], $line, $topcount, $behind_rankings, $re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0]);
+			}
+
+			// Build record entries
+			$oldmode = $re_config['States']['NiceMode'];
+			$re_config['States']['NiceMode'] = true; // Set Nicemode temporary true so there are no playerhighlites in the widget
+
+			$xml .= re_getCloseToYouEntry($item, $line, $topcount, $re_config['PlaceholderNoScore'], $re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0]);
+
+			$re_config['States']['NiceMode'] = $oldmode; // Set Nicemode back to old state
+
+			$line ++;
+
+			if ($line >= $limit) {
+				break;
+			}
+		}
+		unset($item);
+
+	}
+	else if ($login != false) {
+		// Create an empty entry
+		$xml .= re_getCloseToYouEntry($preset, 0, $topcount, $re_config['PlaceholderNoScore'], $re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0]);
+	}
+
+	// Add Widget footer
+	$xml .= $re_cache['HistoricalRecords'][$gamemode]['WidgetFooter'];
+
+	// Send the Widget now
+	return $xml;
+}
+
+/*
+#///////////////////////////////////////////////////////////////////////#
+#									#
+#///////////////////////////////////////////////////////////////////////#
+*/
+
+function re_buildHistoricalRecordsWidgetBody ($gamemode) {
+	global $re_config;
+
+
+	// Set the right Icon and Title position
+	$position = (($re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['POS_X'][0] < 0) ? 'right' : 'left');
+
+	// Set the Topcount
+	$topcount = $re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['TOPCOUNT'][0];
+
+	// Calculate the widget height (+ 3.2 for title)
+	$widget_height = ($re_config['LineHeight'] * $re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['ENTRIES'][0] + 3.2);
+
+	if ($position == 'right') {
+		$imagex	= ($re_config['Positions'][$position]['image_open']['x'] + ($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 15.5));
+		$iconx	= ($re_config['Positions'][$position]['icon']['x'] + ($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 15.5));
+		$titlex	= ($re_config['Positions'][$position]['title']['x'] + ($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 15.5));
+	}
+	else {
+		$imagex	= $re_config['Positions'][$position]['image_open']['x'];
+		$iconx	= $re_config['Positions'][$position]['icon']['x'];
+		$titlex	= $re_config['Positions'][$position]['title']['x'];
+	}
+
+	$build['header'] = str_replace(
+		array(
+			'%manialinkid%',
+			'%actionid%',
+			'%posx%',
+			'%posy%',
+			'%image_open_pos_x%',
+			'%image_open_pos_y%',
+			'%image_open%',
+			'%posx_icon%',
+			'%posy_icon%',
+			'%icon_style%',
+			'%icon_substyle%',
+			'%halign%',
+			'%posx_title%',
+			'%posy_title%',
+			'%backgroundwidth%',
+			'%backgroundheight%',
+			'%borderwidth%',
+			'%borderheight%',
+			'%widgetwidth%',
+			'%widgetheight%',
+			'%column_width_name%',
+			'%column_height%',
+			'%title_background_width%',
+			'%title%'
+		),
+		array(
+			$re_config['ManialinkId'] .'50',
+			$re_config['ManialinkId'] .'25',
+			$re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['POS_X'][0],
+			$re_config['HISTORICAL_RECORDS'][0]['GAMEMODE'][0][$gamemode][0]['POS_Y'][0],
+			$imagex,
+			-($widget_height - 3.18),
+			$re_config['Positions'][$position]['image_open']['image'],
+			$iconx,
+			$re_config['Positions'][$position]['icon']['y'],
+			$re_config['HISTORICAL_RECORDS'][0]['ICON_STYLE'][0],
+			$re_config['HISTORICAL_RECORDS'][0]['ICON_SUBSTYLE'][0],
+			$re_config['Positions'][$position]['title']['halign'],
+			$titlex,
+			$re_config['Positions'][$position]['title']['y'],
+			($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 0.2),
+			($widget_height - 0.2),
+			($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] + 0.4),
+			($widget_height + 0.6),
+			$re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0],
+			$widget_height,
+			($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 6.45),
+			($widget_height - 3.1),
+			($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 0.8),
+			$re_config['HISTORICAL_RECORDS'][0]['TITLE'][0]
+		),
+		$re_config['Templates']['RECORD_WIDGETS']['HEADER']
+	);
+
+	// Add Background for top X Players
+	if ($topcount > 0) {
+		$build['header'] .= '<quad posn="0.4 -2.6 0.004" sizen="'. ($re_config['HISTORICAL_RECORDS'][0]['WIDTH'][0] - 0.8) .' '. (($topcount * $re_config['LineHeight']) + 0.3) .'" style="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['TOP_STYLE'][0] .'" substyle="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['TOP_SUBSTYLE'][0] .'"/>';
+	}
+
+	$build['footer'] = $re_config['Templates']['RECORD_WIDGETS']['FOOTER'];
+
+	return $build;
+}
+/* END Historical */
+
 /*
 #///////////////////////////////////////////////////////////////////////#
 #									#
@@ -11556,6 +11895,168 @@ function re_buildLocalRecordsWindow ($page) {
 		return $xml;
 	}
 }
+
+/* BEGIN Historical */
+/*
+#///////////////////////////////////////////////////////////////////////#
+#									#
+#///////////////////////////////////////////////////////////////////////#
+*/
+
+function re_buildHistoricalRecordsWindow ($page) {
+	global $aseco, $re_config, $re_scores;
+
+
+	if ( count($re_scores['HistoricalRecords']) > 0) {
+
+		// Get the total of records
+		$totalrecs = ((count($re_scores['HistoricalRecords']) < 5000) ? count($re_scores['HistoricalRecords']) : 5000);
+
+		// Determind the maxpages
+		$maxpages = ceil($totalrecs / 100);
+
+		// Frame for Previous-/Next-Buttons
+		$buttons = '<frame posn="52.05 -53.3 0.04">';
+		$buttons .= '<quad posn="3.45 -1 0.12" sizen="3 3" action="'. $re_config['ManialinkId'] .'153" style="Icons64x64_1" substyle="ToolUp"/>';
+
+		// Previous button
+		if ($page > 0) {
+			// First
+			$buttons .= '<quad posn="6.75 -1 0.12" sizen="3 3" action="-'. $re_config['ManialinkId'] .'15000" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="7.15 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="7.34 -1.2 0.14" sizen="2.5 2.6" style="Icons64x64_1" substyle="ShowLeft2"/>';
+			$buttons .= '<quad posn="7.55 -1.6 0.15" sizen="0.4 1.7" bgcolor="CCCF"/>';
+
+			// Previous (-5)
+			$buttons .= '<quad posn="10.05 -1 0.12" sizen="3 3" action="-'. $re_config['ManialinkId'] . ((($page + 14994) < 15000) ? 15000 : ($page + 14994)) .'" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="10.45 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="9.9 -1.2 0.14" sizen="2.5 2.6" style="Icons64x64_1" substyle="ShowLeft2"/>';
+			$buttons .= '<quad posn="10.6 -1.2 0.15" sizen="2.5 2.6" style="Icons64x64_1" substyle="ShowLeft2"/>';
+
+			// Previous (-1)
+			$buttons .= '<quad posn="13.35 -1 0.12" sizen="3 3" action="-'. $re_config['ManialinkId'] . ($page + 14999) .'" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="13.75 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="13.55 -1.2 0.14" sizen="2.5 2.6" style="Icons64x64_1" substyle="ShowLeft2"/>';
+		}
+		else {
+			// First
+			$buttons .= '<quad posn="6.75 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+
+			// Previous (-5)
+			$buttons .= '<quad posn="10.05 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+
+			// Previous (-1)
+			$buttons .= '<quad posn="13.35 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+		}
+
+		// Next button (display only if more pages to display)
+		if ( ($page < 50) && ($totalrecs > 100) && (($page + 1) < $maxpages) ) {
+			// Next (+1)
+			$buttons .= '<quad posn="16.65 -1 0.12" sizen="3 3" action="'. $re_config['ManialinkId'] . ($page + 15001) .'" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="17.05 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="16.85 -1.25 0.14" sizen="2.5 2.5" style="Icons64x64_1" substyle="ShowRight2"/>';
+
+			// Next (+5)
+			$buttons .= '<quad posn="19.95 -1 0.12" sizen="3 3" action="'. $re_config['ManialinkId'] . ((($page + 15006) > ($maxpages + 14999)) ? ($maxpages + 14999) : ($page + 15006)) .'" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="20.35 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="19.8 -1.25 0.14" sizen="2.5 2.5" style="Icons64x64_1" substyle="ShowRight2"/>';
+			$buttons .= '<quad posn="20.5 -1.25 0.15" sizen="2.5 2.5" style="Icons64x64_1" substyle="ShowRight2"/>';
+
+			// Last
+			$buttons .= '<quad posn="23.25 -1 0.12" sizen="3 3" action="'. $re_config['ManialinkId'] . ($maxpages + 14999) .'" style="Icons64x64_1" substyle="Maximize"/>';
+			$buttons .= '<quad posn="23.65 -1.4 0.13" sizen="2.1 2.1" bgcolor="000F"/>';
+			$buttons .= '<quad posn="23.1 -1.25 0.14" sizen="2.5 2.5" style="Icons64x64_1" substyle="ShowRight2"/>';
+			$buttons .= '<quad posn="25 -1.6 0.15" sizen="0.4 1.7" bgcolor="CCCF"/>';
+		}
+		else {
+			// Next (+1)
+			$buttons .= '<quad posn="16.65 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+
+			// Next (+5)
+			$buttons .= '<quad posn="19.95 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+
+			// Last
+			$buttons .= '<quad posn="23.25 -1.15 0.12" sizen="2.8 2.7" style="UIConstructionSimple_Buttons" substyle="Item"/>';
+		}
+		$buttons .= '</frame>';
+
+
+		// Create Windowtitle
+		if (count($re_scores['HistoricalRecords']) == 0) {
+			$title = $re_config['HISTORICAL_RECORDS'][0]['TITLE'][0];
+		}
+		else {
+			$title = $re_config['HISTORICAL_RECORDS'][0]['TITLE'][0] .'   |   Page '. ($page+1) .'/'. $maxpages .'   |   '. re_formatNumber($totalrecs, 0) . (($totalrecs == 1) ? ' Record' : ' Records');
+		}
+
+		$xml = str_replace(
+			array(
+				'%icon_style%',
+				'%icon_substyle%',
+				'%window_title%',
+				'%prev_next_buttons%'
+			),
+			array(
+				$re_config['HISTORICAL_RECORDS'][0]['ICON_STYLE'][0],
+				$re_config['HISTORICAL_RECORDS'][0]['ICON_SUBSTYLE'][0],
+				$title,
+				$buttons
+			),
+			$re_config['Templates']['WINDOW']['HEADER']
+		);
+
+		$xml .= '<frame posn="3.2 -6.5 1">';
+		$xml .= '<format textsize="1" textcolor="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['COLORS'][0]['DEFAULT'][0] .'"/>';
+
+		$xml .= '<quad posn="0 0.8 0.02" sizen="17.75 46.88" style="BgsPlayerCard" substyle="BgRacePlayerName"/>';
+		$xml .= '<quad posn="19.05 0.8 0.02" sizen="17.75 46.88" style="BgsPlayerCard" substyle="BgRacePlayerName"/>';
+		$xml .= '<quad posn="38.1 0.8 0.02" sizen="17.75 46.88" style="BgsPlayerCard" substyle="BgRacePlayerName"/>';
+		$xml .= '<quad posn="57.15 0.8 0.02" sizen="17.75 46.88" style="BgsPlayerCard" substyle="BgRacePlayerName"/>';
+
+
+		// Add all connected PlayerLogins
+		$players = array();
+		foreach ($aseco->server->players->player_list as &$player) {
+			$players[] = $player->login;
+		}
+		unset($player);
+
+
+		$entries = 0;
+		$line = 0;
+		$offset = 0;
+		for ($i = ($page * 100); $i < (($page * 100) + 100); $i ++) {
+
+			// Is there a record?
+			if ( !isset($re_scores['HistoricalRecords'][$i]) ) {
+				break;
+			}
+
+			$item = $re_scores['HistoricalRecords'][$i];
+
+			// Mark current connected Players
+			if ( in_array($item['login'], $players) ) {
+				$xml .= '<quad posn="'. ($offset + 0.4) .' '. (((1.83 * $line - 0.2) > 0) ? -(1.83 * $line - 0.2) : 0.2) .' 0.03" sizen="16.95 1.83" style="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['HIGHLITE_OTHER_STYLE'][0] .'" substyle="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['HIGHLITE_OTHER_SUBSTYLE'][0] .'"/>';
+			}
+			$xml .= '<label posn="'. (2.6 + $offset) .' -'. (1.83 * $line) .' 0.04" sizen="2 1.7" halign="right" scale="0.9" text="'. $item['rank'] .'."/>';
+			$xml .= '<label posn="'. (6.4 + $offset) .' -'. (1.83 * $line) .' 0.04" sizen="4 1.7" halign="right" scale="0.9" textcolor="'. $re_config['STYLE'][0]['WIDGET_RACE'][0]['COLORS'][0]['SCORES'][0] .'" text="'. $item['score'] .'"/>';
+			$xml .= '<label posn="'. (6.9 + $offset) .' -'. (1.83 * $line) .' 0.04" sizen="11.2 1.7" scale="0.9" text="'. $item['nickname'] .'"/>';
+
+			$line ++;
+
+			// Reset lines
+			if ($line >= 25) {
+				$offset += 19.05;
+				$line = 0;
+			}
+		}
+		$xml .= '</frame>';
+
+		$xml .= $re_config['Templates']['WINDOW']['FOOTER'];
+		return $xml;
+	}
+}
+/* END Historical */
 
 /*
 #///////////////////////////////////////////////////////////////////////#
@@ -15095,6 +15596,19 @@ function re_buildToplistWindow ($page = 0) {
 		'list'		=> 'LocalRecords',
 		'special'	=> false,
 	);
+
+	/* BEGIN Historical */
+	// HistoricalRecords
+	$toplists[] = array(
+		'manialinkid'	=> '25',
+		'icon_style'	=> $re_config['HISTORICAL_RECORDS'][0]['ICON_STYLE'][0],
+		'icon_substyle'	=> $re_config['HISTORICAL_RECORDS'][0]['ICON_SUBSTYLE'][0],
+		'title'		=> $re_config['HISTORICAL_RECORDS'][0]['TITLE'][0],
+		'fieldnames'	=> array('score', 'nickname'),
+		'list'		=> 'HistoricalRecords',
+		'special'	=> false,
+	);
+	/* END Historical */
 
 	// LiveRankingsWindow
 	$toplists[] = array(
