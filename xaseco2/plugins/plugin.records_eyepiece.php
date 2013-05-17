@@ -134,7 +134,7 @@
  *  91823			id for action for filter only 'Stadium' Maps
  *  91824			id for action for filter only 'Valley' Maps
  * // BEGIN Historical //
- *  91825			id for action for show LocalRecordsWindow
+ *  91825			id for action for show HistoricalRecordsWindow
  * // END Historical //
  *  91825  to 91839		UNUSED BUT RESERVED (for Filter options)
  *  91840			id for action for filter only jukeboxed Maps
