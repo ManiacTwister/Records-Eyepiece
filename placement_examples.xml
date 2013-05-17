@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<records_eyepiece>
+	<!--
+		Displays multiple fully customizable widgets all over the hud containing images or bik-videos.
+		This content needs its loading time so please be patient if it doesn't show up immediately and
+		you need to press DEL to get the loaded content to be displayed.
+		Have a look at the sample placements to see how the widget is used. You can combine the tags in nearly every
+		possible way, having a manialink on a video that becomes an image on mouseover or something like that.
+		You can add as many <placement>-Blocks as you want but be sure to not overload your HUD for your players.
+	//-->
+	<placement_widget>
+		<enabled>true</enabled>
+
+
+		<!--	Placeholder for <placement>'s
+			PLEASE NOTE: If a Map are not at MX, the <placement> with %MAP_MX_*% inside are not displayed!
+			Supported only in <display>-Mode 'score' and as parameter in <url> and <manialink>!
+
+			%MAP_MX_PREFIX%		= MX prefix for URL (e.g. 'tm' for http://tm.mania-exchange.com/...)
+			%MAP_MX_ID%		= MX-Id from current Map
+			%MAP_MX_PAGEURL%	= MX-URL directly to the Map
+			%MAP_UID%		= Uid from current Map
+			%MAP_NAME%		= Name of the Map
+		//-->
+
+		<!--	All possible supported entries and values.
+			If you set <url>, <manialink>, <action_id> and <chat_command> together, only <url> will be used
+			Min. required are (without <include>): <enabled>, <display>, <pos_x>, <pos_y>, <width> and <height>
+			Min. required are (with <include>): <enabled>, <display> and <include> (all other are ignored)
+		<placement>
+			<enabled>[true|false]</enabled>
+			<description>enter here whatever you want as an description (this is just for you to remember what this is)</description>
+			<display>[race|score|always]</display>
+			<pos_x>[signed/unsigned float]</pos_x>
+			<pos_y>[signed/unsigned float]</pos_y>
+			<layer>[signed/unsigned float]</layer>				from "-3" till "20"
+			<width>[unsigned float]</width>
+			<height>[unsigned float]</height>
+			<background_style>[empty|style]</background_style>
+			<background_substyle>[empty|substyle]</background_substyle>
+			<icon_style>[empty|style]</icon_style>
+			<icon_substyle>[empty|substyle]</icon_substyle>
+			<halign>[empty|left|center|right]</halign>
+			<valign>[top|center|bottom]</valign>
+			<text>[string with formating codes]</text>
+			<textsize>[int]</textsize>
+			<textscale>[0.0|0.1|0.2|0.3|0.4|0.5|0.6|0.7|0.8|0.9|1.0]</textscale>
+			<image>[empty|url]</image>
+			<imagefocus>[empty|url]</imagefocus>
+			<url>[empty|url]</url>
+			<manialink>[empty|manialink]</manialink>
+			<action_id>[signed/unsigned int]</action_id>			enter here an action id from other Plugins
+			<chat_command>[string]</chat_command>				enter here a chat-command from other Plugins, e.g. "/karma help"
+			<include>[path to a file]</include>				enter here the path to the file you want to include (relative from the xaseco2.php location)
+		</placement>
+		//-->
+
+
+		<!--
+			This next four <placement>'s builds an Widget in the same style as the Clock, Visitors or GameMode Widgets,
+			but on a click on it, it´s called an ManialinkId from the plugin.alternate_scoretable.php
+			which then displays the Scoretable.
+		//-->
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for sending an action id from an other Plugin, here the Scoretable from plugin.alternate_scoretable.php (displayed only at Race)</description>
+			<display>race</display>
+			<pos_x>25.1</pos_x>
+			<pos_y>39.3</pos_y>
+			<width>4.6</width>
+			<height>6.5</height>
+			<background_style>BgsPlayerCard</background_style>
+			<background_substyle>ProgressBar</background_substyle>
+			<action_id>91602</action_id>
+		</placement>
+		<placement>
+			<enabled>false</enabled>
+			<description>Text for the above</description>
+			<display>race</display>
+			<pos_x>27.4</pos_x>
+			<pos_y>34.4</pos_y>
+			<width>6.35</width>
+			<height>2</height>
+			<halign>center</halign>
+			<text>$FC0SCORETABLE</text>
+			<textsize>1</textsize>
+			<textscale>0.6</textscale>
+		</placement>
+		<placement>
+			<enabled>false</enabled>
+			<description>Icon for the above</description>
+			<display>race</display>
+			<pos_x>25.8</pos_x>
+			<pos_y>38.8</pos_y>
+			<width>3.2</width>
+			<height>3.2</height>
+			<icon_style>Icons64x64_1</icon_style>
+			<icon_substyle>RestartRace</icon_substyle>
+		</placement>
+		<placement>
+			<enabled>false</enabled>
+			<description>Image indicator that this is clickable for the above</description>
+			<display>race</display>
+			<pos_x>24.92</pos_x>
+			<pos_y>34.7</pos_y>
+			<width>2.1</width>
+			<height>2.1</height>
+			<image>http://www.bilderload.com/bild/52716/llclockopenGDD86.png</image>
+		</placement>
+
+
+
+
+
+
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for external graphics with an extra on mouse over image (displayed only at Score)</description>
+			<display>score</display>
+			<pos_x>-20</pos_x>
+			<pos_y>25.5</pos_y>
+			<width>40</width>
+			<height>12</height>
+			<background_style></background_style>
+			<background_substyle></background_substyle>
+			<image>http://www.undef.de/.trackmania/xaseco/fufi.widgets/onscore/tracks-by-undef.de-normal.png</image>
+			<imagefocus>http://www.undef.de/.trackmania/xaseco/fufi.widgets/onscore/tracks-by-undef.de-focus.png</imagefocus>
+			<url>http://www.undef.de/Trackmania/</url>
+		</placement>
+
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for external graphics (displayed only at Race)</description>
+			<display>race</display>
+			<pos_x>-67.8</pos_x>
+			<pos_y>40</pos_y>
+			<width>22.8</width>
+			<height>6.8</height>
+			<background_style></background_style>
+			<background_substyle></background_substyle>
+			<image>http://vsr.undef.de/.images/vsr-logo.png</image>
+			<manialink>undef</manialink>
+		</placement>
+
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for external Video (displayed only always)</description>
+			<display>always</display>
+			<pos_x>-8</pos_x>
+			<pos_y>4.5</pos_y>
+			<width>16</width>
+			<height>9</height>
+			<background_style>Bgs1InRace</background_style>
+			<background_substyle>NavButton</background_substyle>
+			<image>http://fish.stabb.de/aseco/SignWrongWay.bik</image>
+			<imagefocus>http://fish.stabb.de/aseco/SignDown.bik</imagefocus>
+			<manialink>http://smurf1.free.fr/mle/index.xml</manialink>
+		</placement>
+
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for in-game graphics (displayed only at Race)</description>
+			<display>race</display>
+			<pos_x>-28</pos_x>
+			<pos_y>4.5</pos_y>
+			<width>16</width>
+			<height>16</height>
+			<background_style>Bgs1InRace</background_style>
+			<background_substyle>NavButton</background_substyle>
+			<image>tmtp://Skins/Avatars/Flags/GER.dds</image>
+			<imagefocus>tmtp://Skins/Avatars/Flags/USA.dds</imagefocus>
+			<manialink>tm-karma</manialink>
+		</placement>
+
+		<placement>
+			<enabled>false</enabled>
+			<description>Sample entry for Text (displayed only at Score)</description>
+			<display>score</display>
+			<pos_x>10</pos_x>
+			<pos_y>20</pos_y>
+			<width>10</width>
+			<height>2</height>
+			<text>$F90||||||||$FFF|||||||||||||$F00|||</text>
+			<textsize>1</textsize>
+			<manialink>udf</manialink>
+		</placement>
+	</placement_widget>
+</records_eyepiece>

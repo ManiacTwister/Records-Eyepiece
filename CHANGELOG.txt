@@ -1,0 +1,526 @@
+CHANGES 1.0.9.9
+~~~~~~~~~~~~~~~
+ - Changes:
+   - Changed the function that remove the BOM-Header from several map infos (thanks xymph)
+   - Included a work-a-round for a empty AuthorZone, required since TM2Stadium (see http://forum.maniaplanet.com/viewtopic.php?f=470&t=17626)
+   - All Windows are now able to minimize and also movable (done with ManiaScript)
+   - All Windows that are callable from MoreRankings-Window have now a back button (thanks hacki65)
+   - Added LiveRankings into the MoreRankings-Window
+   - The click on the VisitorsWidget changed to open TopVisitors-Window instead TopNations-Window
+
+ - Changes in the records_eyepiece.xml:
+   - none
+
+ - Bugfix:
+   - [XASECO2 Warning] Could not map country: Europe, see http://www.tm-forum.com/viewtopic.php?p=209000#p209000 (thanks hacki65)
+   - Remote added Maps (with e.g. RemoteCP) are not recognized (thanks hacki65)
+
+
+
+CHANGES 1.0.9.8
+~~~~~~~~~~~~~~~
+ - Changes:
+   - Changed from own System to the new Gamestate constants Server::RACE and Server::SCORE from XAseco2/1.01
+   - Now it is possible to use a user-defined format in the LiveRankingWidget for Score/Pointlimit/Remaining Points (thanks yamyam)
+   - Added new external ManiaExchangeWidget and removed the small button from the MapWidget
+
+ - Changes in the records_eyepiece.xml:
+   - Added option <live_rankings><gamemode><rounds><format>
+   - Added <maniaexchange_widget>*
+
+ - Bugfix:
+   - [PHP Notice] Undefined offset: 2 at line 10315 and 10382 in file [...] (thanks -MfG-Lucker)
+   - [XASECO2 Warning] Could not map country: Europe, see http://forum.maniaplanet.com/viewtopic.php?f=470&t=17626 (thanks speedychris, Bull)
+   - Too small font at the LastCurrentNextMapWindow
+   - Too small font at the CheckpointCountWidget at "Finish now!"
+   - Read complete Map list at the event "onMapListModified" removed, map change should now be faster
+
+
+
+CHANGES 1.0.9.7
+~~~~~~~~~~~~~~~
+ - Changes:
+   - none
+
+ - Changes in the records_eyepiece.xml:
+   - Changed all URLs at <welcome_window><image>*
+
+ - Bugfix:
+   - [PHP Notice] Undefined index: name_plain on line 16541 in file [...] (thanks Lovemaster)
+   - [PHP Notice] Undefined index: uid on line 16581 in file [...] (thanks Lovemaster)
+
+
+
+CHANGES 1.0.9.6
+~~~~~~~~~~~~~~~
+ - Changes:
+   - This release require min. XAseco2/1.02!
+   - Changed some icons back to the that was used before Beta/2.x or to other matching icons
+   - Added nice ManiaScript animation on closing the windows
+   - The LiveRankingsWidget in Gamemode 'Rounds' when <display_type> is setup to 'scores' displays now the points won and the points left to the round points limit: e.g. "25 (74)", before "25/99"
+   - The LastCurrentNextMapWindow now hides ManiaExchange-Infos on Map that was not found at ManiaExchange
+   - SQL query speedup on large/huge database at start when the `MostFinished` and `MostRecords` are recounted (thanks Bueddl)
+   - New placeholder for <join_leave_info>, added '{continent}' to show the players continent e.g. "Europe"
+   - New option for <join_leave_info>, now it is possible to send the Join/Leave messages to the message window from XAseco2 or to my plugin "Info-Widget" (thanks Maximuson)
+   - Changed the license from GPL/v2 to GPL/v3
+
+ - Changes in the records_eyepiece.xml:
+   - Changed <dedimania_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <dedimania_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed <gerymania_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <gerymania_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed <local_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <local_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed <live_rankings><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <live_rankings><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Added <join_leave_info><messages_in_window>
+   - Changed <scoretable_lists><dedimania_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <scoretable_lists><dedimania_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed <scoretable_lists><gerymania_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <scoretable_lists><gerymania_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed <scoretable_lists><local_records><icon_style> from 'Icons128x128_1' to 'BgRaceScore2'
+   - Changed <scoretable_lists><local_records><icon_substyle> from 'Rankings' to 'LadderRank'
+   - Changed all URLs to a new host at <images>*
+   - Added <images><environment><enabled><icon_stadium>
+   - Added <images><environment><focus><icon_stadium>
+   - Added <images><environment><disabled><icon_stadium>
+   - Added <images><environment><enabled><icon_valley>
+   - Added <images><environment><focus><icon_valley>
+   - Added <images><environment><disabled><icon_valley>
+
+ - Bugfix:
+   - Zone on leave/join contains continent since the B3.x (when the next XAseco2 is released)
+   - Fontsize is too small in the TimezoneSelectionWindow since B3.x
+   - [PHP Notice] Undefined index: Score on line 5728 (thanks R4PH1)
+   - <favorite_widget> uses the <text_color> from the <mapcount_widget> (thanks Bueddl)
+
+
+
+CHANGES 1.0.9.5
+~~~~~~~~~~~~~~~
+ - Changes:
+   - In the HelpWindow at the Command "/estat" now only active commands are shown
+
+ - Changes in the records_eyepiece.xml:
+   - New URL for <progress_indicator> (because Bink-Support is back again)
+
+ - Bugfix:
+   - [PHP Notice] Undefined index: SCG (or CAR, ROM) (thanks sbone)
+
+
+
+CHANGES 1.0.9.4
+~~~~~~~~~~~~~~~
+ - Changes:
+   - none
+
+ - Changes in the records_eyepiece.xml:
+   - none
+
+ - Bugfix:
+   - Nickname of the connecting Player in the WelcomeWindow always wrong (thanks weerwolf1)
+
+
+
+CHANGES 1.0.9.3
+~~~~~~~~~~~~~~~
+ - Changes:
+   - none
+
+ - Changes in the records_eyepiece.xml:
+   - none
+
+ - Bugfix:
+   - Quitting of Xaseco if an error occurs while calling the new Gbx data fetcher class. (thanks Electron)
+   - Work-a-round for a Bug of the dedicated server (see http://forum.maniaplanet.com/viewtopic.php?f=427&t=14813)
+
+
+
+CHANGES 1.0.9.2
+~~~~~~~~~~~~~~~
+ - Changes:
+   - Added version at log for helping me debugging for Users with problems
+
+ - Changes in the records_eyepiece.xml:
+   - Added <donation_widget><text_color>
+   - Removed <features><sort_team> (in TM2 it is sorted by default)
+
+ - Bugfix:
+   - [PHP Notice] Undefined index: TEXT_COLOR on line 15310 (thanks sbone)
+   - Counting of Team-Points in the LiveRankingWidget are sometimes reversed (thank tm-alonso, sbone, cockneyrebel)
+
+
+
+CHANGES 1.0.9.1
+~~~~~~~~~~~~~~~
+ - Changes:
+   - This release require min. XAseco2/1.01!
+   - Changed the check for the current XAseco2 version
+   - Added Support for the event 'onDediRecsLoaded' and removed the code to check if the DedimaniaRecords are loaded,
+     now the DedimaniaWidgets displays the Records as soon as they are loaded
+   - Switched from "GBXChallengeFetcher" to the new "GBXChallMapFetcher"
+
+ - Changes in the records_eyepiece.xml:
+   - none
+
+ - Bugfix:
+   - [PHP Notice] Undefined property: GBXChallMapFetcher::$azone
+   - [PHP Notice] Undefined index: id... (thanks sbone)
+
+
+
+CHANGES 1.0.9
+~~~~~~~~~~~~~
+ - Changes:
+   - The "/eyeset reload" skip the check for required database extensions and do not refresh the Database columns
+   - Included the optional parameter "payouts" to the command "/eyepiece", which display the amount of Planets for
+     the WinningPayoutWidget at Score (only available for Op/Admin/MasterAdmin)
+   - Included the optional parameter "nofinish" to the command "/elist" (thanks TheBigG)
+   - Included support for Plugin 'Nouse Betting' (as it was in the TMF port), see http://www.tm-forum.com/viewtopic.php?f=127&t=29414
+   - Changed the MaplistFilterWindow and included "No Finish"
+   - If <winning_payout> is enabled, then the wins are stored into the Database and is available
+     at Score with <scoretable_lists><top_winning_payouts> and in MORE-Ranking
+   - The RoundScore the Player has won in the Gamemodes 'Rounds' and 'Cup' are now stored into the Database and is available
+     at Score with <scoretable_lists><top_roundscore>
+   - The amount of each Player visit are now stored into the Database and are available in <join_leave_info> and in MORE-Ranking
+   - The new <join_leave_info> are chat messages as known from jfreu, but includes the Visits and is more flexible to adjust
+   - Included the optional parameter "topvisitors", "topactive" and "toppayouts" to the command "/estat"
+   - With <features><shorten_numbers> it is possible to reduce high numbers like '20,000' to '20k'
+   - Restyled the MORE-Rankings Window and added 'Top Visitors', 'Top Roundscore' and 'Top Active Players'
+   - In the MORE-Rankings Window only lists are included that has content, exept Dedimania, Gerymania and Local Records (thanks sbone)
+   - The LiveRankingWidget displays in Gamemode 'Laps' now the amount of Checkpoints that have to be visited, e.g. "20/40" instead of "20 cps."
+   - The RoundScoreWidget now supports the Gamemode 'Laps' also (thanks prophet)
+   - If <winning_payout> is enabled and Player(s) won Planets, then a event (onPlayerWinPlanets) is released to let other Plugins interact on this
+
+ - Changes in the records_eyepiece.xml:
+   - Added <features><shorten_numbers>
+   - Added <music_widget><advertise>
+   - Changed <dedimania_records><gamemode><laps><entries> from '30' to '15'
+   - Changed <local_records><gamemode><laps><pos_x> from '49.2' to '-64.7'
+   - Changed <local_records><gamemode><laps><pos_y> from '24' to '2.5'
+   - Changed <live_rankings><gamemode><laps><pos_y> from '-2.8' to '-5.06'
+   - Changed <round_score><gamemode><laps>*
+   - Added <join_leave_info>*
+   - Changed <scoretable_lists><top_average_times><entries> from '10' to '8'
+   - Changed <scoretable_lists><dedimania_records><pos_y> from '5.1' to '-9.25'
+   - Changed <scoretable_lists><dedimania_records><entries> from '15' to '8'
+   - Changed <scoretable_lists><local_records><pos_x> from '47.8' to '-63.5'
+   - Changed <scoretable_lists><local_records><pos_y> from '22.3' to '8.6'
+   - Changed <scoretable_lists><top_maps><pos_y> from '4.4' to '22.3'
+   - Changed <scoretable_lists><top_voters><pos_y> from '-9.9' to '8'
+   - Added <scoretable_lists><top_visitors>*
+   - Added <scoretable_lists><top_active_players>*
+   - Added <scoretable_lists><top_betwins>*
+   - Added <scoretable_lists><top_roundscore>*
+   - Added <scoretable_lists><top_winning_payouts>*
+
+ - Bugfix:
+   - Include a check for the length of <winning_mail_body>, that have to be shorter then 256 signs (thanks yamyam)
+   - At the Gamemode 'Cup' the LiveRankingsWidget are not forced to refresh at the Event 'onEndRound'
+   - Changed wrong sign at the TimezoneSelectionWindow at the Canada list
+   - The Live-Rankings-Widget sometimes did not refresh at the event 'onEndRound'
+   - The Live-Rankings-Widget did not refresh at Gamemode 'Laps' and when <display_type> is set to 'time' (thanks prophet)
+
+
+
+CHANGES 1.0.8
+~~~~~~~~~~~~~
+ - Changes:
+   - This release require min. 0.9.6 of the plugin.gerymania.php, if Gerymania is enabled
+   - Include the support of the event 'onGerymaniaRecordsLoaded'
+   - Speed-Up the MostRecords Database access
+   - With the new option at the WelcomeWindow it is possible to hide this WelcomeWindow from Players
+     who has received a ServerRank, all others see the WelcomeWindow
+   - Removed support for the ManiaRecords.org (see why http://www.tm-forum.com/viewtopic.php?f=127&t=28900)
+
+ - Changes in the records_eyepiece.xml:
+   - Added <welcome_window><hide>*
+   - Changed <welcome_window><image><link> to a new URL
+   - Changed <dedimania_records><gamemode><rounds><pos_y> from '13.3' to '32.9'
+   - Changed <dedimania_records><gamemode><rounds><entries> from '9' to '15'
+   - Changed <dedimania_records><gamemode><time_attack><pos_y> from '4.3' to '32.9'
+   - Changed <dedimania_records><gamemode><time_attack><entries> from '14' to '30'
+   - Changed <dedimania_records><gamemode><team><pos_y> from '13.3' to '32.9'
+   - Changed <dedimania_records><gamemode><team><entries> from '9' to '15'
+   - Changed <dedimania_records><gamemode><laps><pos_y> from '4.3' to '32.9'
+   - Changed <dedimania_records><gamemode><laps><entries> from '14' to '30'
+   - Changed <dedimania_records><gamemode><cup><pos_y> from '13.3' to '32.9'
+   - Changed <dedimania_records><gamemode><cup><entries> from '9' to '15'
+   - Removed <mania_records>*
+   - Changed <local_records><gamemode><rounds><pos_y> from '-6.3' to '2.5'
+   - Changed <local_records><gamemode><rounds><entries> from '9' to '14'
+   - Changed <local_records><gamemode><team><pos_y> from '-6.3' to '2.5'
+   - Changed <local_records><gamemode><team><entries> from '9' to '14'
+   - Changed <local_records><gamemode><cup><pos_y> from '-6.3' to '2.5'
+   - Changed <local_records><gamemode><cup><entries> from '9' to '14'
+   - Changed <scoretable_lists><top_average_times><entries> from '8' to '10'
+   - Changed <scoretable_lists><dedimania_records><pos_y> from '-9.25' to '5.1'
+   - Changed <scoretable_lists><dedimania_records><entries> from '8' to '15'
+   - Removed <scoretable_lists><mania_records>*
+   - Removed <nicemode><allow><mania_records>
+   - Changed <messages><winning_mail_body>
+
+ - Bugfix:
+   - BillUpdated for unknown BillId [ID] Error: The transmitted message does not match the message of this transaction. (thanks sbone)
+   - MostRecords in the MoreRankingWindow are only refreshed at a new or changed local record, if the MostRecords at <scoretable_lists> is enabled
+   - TopWinners in the MoreRankingWindow are only refreshed when a Player wins, if the TopWinners at <scoretable_lists> is enabled
+   - No check for required Plugin 'plugin.rasp.php' when <scoretable_lists><top_rankings> is enabled
+
+
+
+
+CHANGES 1.0.7
+~~~~~~~~~~~~~
+ - Changes:
+   - Added event 'onVotingRestartMap' from plugin.vote_manager.php (see http://labs.undef.de/XAseco2/Vote-Manager.php)
+
+ - Changes in the records_eyepiece.xml:
+   - Added <winning_payout><colors><disconnected>
+   - Removed <winning_payout><colors><no_tmu>
+   - Moved <winning_payout><colors><coppers> to <winning_payout><colors><planets> (thanks sbone)
+   - Changed <messages><winning_mail_body>
+
+ - Bugfix:
+   - When a Admin restarts a Map and min. one Player has finished the Map, then the Dedicated-Server display the Score,
+     in such situation the NextMapWidget display the wrong (next) Map
+   - In the MapcountWidget the amount of Maps is not formated with number_format()
+   - If a Player is already disconnected, then this Player can win Planets at Score, if <winning_payout> is 'enabled'
+   - PHP Fatal error:  Cannot break/continue 1 level in [...]/plugin.records_eyepiece.php on line 15643 (thanks Bw. Blade)
+   - If the <default_rpoints> from config.xml is set to a own Rounds Points System (e.g. "13,11,9,...1), then the RoundScoreWidget
+     display only "+" instead of "+13" (thanks KillaBot)
+   - If <winning_payout><players><reset_limit> is set to '0', then the won Planets are never paid (thanks sbone)
+   - If a Player win Planets at Score and the total won Planets is the same as <winning_payout><players><maximum_planets>, then
+     the WinningPayoutWidget display "Over Payout-Limit!" instead of "Congratulation!" or "[N] P total"
+
+
+
+
+CHANGES 1.0.6
+~~~~~~~~~~~~~
+ - Changes:
+   - This version require XAseco2/1.00+
+   - Optimized the builder for the <placement>´s, the resulting XML-Code is now a little bit smaller
+   - With the new option <inlude> for <placement> it is now possible to add complex XML-Manialinks (thanks TheBigG)
+   - Changed requirements for a <placement>:
+     Without <include>: <enabled>, <display>, <pos_x>, <pos_y>, <width> and <height> (<display> was added)
+     With <include>:  <enabled>, <display> and <include> (all other are ignored)
+   - Now it is possible to change the number format with <features><number_format>
+   - At the MaplistWindow the OnlyRecentList now sort the Maps in the order they was played, newest first
+   - At the MaplistWindow the CurrentJukeboxList now sort the Maps in the order they was added
+   - The LiveRankingsWidget at Gamemode 'Laps' now refresh everytime a Player drive through a Checkpoint,
+     if <display_type> is set to 'checkpoints', but only in <refresh_interval> intervals
+   - Changed all Gamemode Ids to the new Gameinfo constants from XAseco2/1.00
+   - Added the MapID from MX to the MX-MapInfoWindow (thanks aliasfred) and also made the description larger from 7 to 10 lines
+
+ - Changes in the records_eyepiece.xml:
+   - Changed the Description at <placement_widget> for the new <inlude> option and the changed requirements for a <placement>
+   - Added <features><number_format>
+
+ - Bugfix:
+   - At Score sometimes the driven times in all Gamemodes except 'Stunts' in the LocalRecordsWidget are unformated (thanks tyjo, sbone)
+   - Resort the MostRecordArray on a new LocalRecord, when Player is in the MostRecordsArray, otherwise the order is wrong
+   - WinningPayoutWidget display "CC" for Coppers instead "P" for Planets
+   - LiveRankings display at the Gamemode 'Rounds' at the begin only "0" instead of "0/5" when <display_type> was set to 'scores'
+   - Remove duplicate Timezone "Atlantic / Faeroe", "Atlantic / Faroe" has remained
+   - The MX-Top10-Records-List from the ManiaExchangeMapInfoWindow did not display the Times and Players. And there up to 15 Records now, so
+     the name was also outdated, now it is MX-Top15-Records
+
+
+
+
+CHANGES 1.0.5
+~~~~~~~~~~~~~
+ - Changes:
+   - In the Record- and Ranking-Windows now all connected Players are marked
+   - The MapWidget, ManiaExchangeMapInfoWindow, Last-/Current-/NextMapWindow and the MapListWindow now includes the NationFlag from MapAuthor
+   - Added new sorting option at the SortOptionsWindow for the MapListWindow: "AuthorNation"
+
+ - Changes in the records_eyepiece.xml:
+   - none
+
+ - Bugfix:
+   - Changed the link to the Dedimania-Website at sort order "REC-ASC" to "RANK-ASC"
+   - Warm-Up tracking in all Gamemodes that has a Warm-Up enabled
+   - SongWindow juke a different Song as the Player choosed (thanks hirrball, discovery2005, tyjo)
+   - [PHP Notice] Undefined offset: 1 on line 15650 in... on Nadeo Maps (thanks Electron)
+
+
+
+
+CHANGES 1.0.4
+~~~~~~~~~~~~~
+ - NOTE: This release require XAseco2/0.98+
+ - Changes:
+   - Support for the Dedimania-Plugin (e.g. Link to Dedimania-Website, now order by Rank and display only the Records for the current Gamemode)
+   - Renamed the event 'onChallengeListModified' into 'onMapListModified' as required for the next XAseco2 release
+   - Changed formating of the amount of TopDonators from e.g. "10 906 P" to "10,906 P" (english notation)
+
+ - Changes in the records_eyepiece.xml:
+   - Changed <dedimania_records>*
+   - Changed <gerymania_records><stunts><pos_y> from '23.65' to '4.3'
+   - Changed <gerymania_records><stunts><entries> from '16' to '14'
+   - Changed <mania_records><gamemode><rounds><entries> from '17' to '9'
+   - Changed <mania_records><gamemode><time_attack><entries> from '30' to '14'
+   - Changed <mania_records><gamemode><team><entries> from '17' to '9'
+   - Changed <mania_records><gamemode><laps><entries> from '30' to '14'
+   - Changed <mania_records><gamemode><cup><entries> from '17' to '17'
+   - Changed <local_records><gamemode><rounds><pos_y> from '-1.2' to '-6.3'
+   - Changed <local_records><gamemode><rounds><entries> from '11' to '9'
+   - Changed <local_records><gamemode><team><pos_y> from '-1.2' to '-6.3'
+   - Changed <local_records><gamemode><team><entries> from '11' to '9'
+   - Changed <local_records><gamemode><cup><pos_y> from '-1.2' to '-6.3'
+   - Changed <local_records><gamemode><cup><entries> from '11' to '9'
+   - Changed <scoretable_lists><dedimania_records><enabled> from 'false' to 'true'
+   - Changed <scoretable_lists><mania_records><pos_y> from '-9.25' to '8.6'
+   - Changed <scoretable_lists><local_records><pos_x> from '-63.5' to '47.8'
+   - Changed <scoretable_lists><local_records><pos_y> from '8.6' to '22.3'
+   - Changed <scoretable_lists><top_maps><pos_y> from '22.3' to '4.4'
+   - Changed <scoretable_lists><top_maps><entries> from '7' to '6'
+   - Changed <scoretable_lists><top_voters><pos_y> from '6.2' to '-9.9'
+   - Changed <scoretable_lists><top_voters><entries> from '7' to '6'
+   - Changed <nicemode><allow><dedimania_records> from 'false' to 'true'
+
+ - Bugfix:
+   - If <dedimania_records> are enabled together with <mania_records>, then the MoreRankingsWindow does not display the ManiaRecords list
+   - Maplist sorting by Author or Mapname sorts case-sensitive instead of sorting case-insensitive (thanks Ant)
+
+
+
+
+CHANGES 1.0.3
+~~~~~~~~~~~~~
+ - Changes:
+   - Optimized the SQL query for the TopTracksWidget at Score and in MoreRankings-Lists, Servers with a very
+     large or huge `rs_karma` now faster at startup and Map change (thanks tyjo)
+   - Added a check for min. required entries at <placement>
+   - TopMaplist hides Maps that did not exists at the Dedicated-Playlist, but still exist in the Database (thanks yamyam)
+   - Changed the Layout of the CurrentSongWidget and the entries in the SongListWindow
+   - Now it is possible to adjust the method how the Karma should be calculated: 'tmkarma' does is like TM-Karma.com and 'rasp' do it like XAseco RASP/Karma (thanks Ant)
+   - Now it is possible to adjust more the 7 amounts (max. 10) for the <donation_widget> (thanks Ant)
+   - The MaplistWindow now includes the local Karma value for each Map
+
+ - Changes in the records_eyepiece.xml:
+   - Added the note "Min. required are: <enabled>, <pos_x>, <pos_y>, <width> and <height>" at <placement> (thanks yamyam)
+   - <welcome_window><image>* and <images>* changed to own redirect service
+   - Added <features><karma>*
+   - Renamed <features><karma_min_votes> to <min_votes>
+   - Moved <features><min_votes> to <features><karma><min_votes>
+   - Changed the <donation_widget><amounts> from '20,50,100,200,500,1000,2000' to '20,50,100,200,500,1000,1500,2000,2500,5000' and the related documentation above this
+   - Changed <style><widget_race><colors><worse> from 'FB0F' to 'CCCF'
+   - Changed <style><widget_score><colors><scores> from '19FF' to 'DDDF'
+
+ - Bugfix:
+   - If <features><tracklist><sorting> is set to 'map' then the click in the MaplistSortingWindow on "Sort by Authorname"
+     did not sort it (thanks Ant)
+   - The marker "CurrentSong" are hidden, if the current song was added to the Jukebox
+   - [PHP Notice] Undefined index:  [Playerlogin] on line 6904 in file... (thanks biloudeprovence)
+   - If <default_rpoints> in config.xml is empty then do not reset the setup of CustomRoundPoints at Map change (thanks TheBigG)
+
+
+
+
+CHANGES 1.0.2
+~~~~~~~~~~~~~
+ - Changes:
+   - Optimized the SQL query for the MostFinishedWidget at Score and in MoreRankings-Lists, Servers with a very
+     large or huge `rs_times` now faster at the Map change
+   - Optimized the refresh of the Scoretable lists
+   - Now it is possible to adjust the order of the Maplist, by 'author' (default), 'map' or 'false' (thanks yamyam)
+
+ - Changes in the records_eyepiece.xml:
+   - Removed ", Works only on TMUF Servers!" in the comment of <winning_payout> (thanks yamyam)
+   - Renamed <eypiece_widget> in <eyepiece_widget>
+   - Moved <features><sort_songlist> to <features><songlist><sort_songlist> and renamed <sort_songlist> to <sorting>
+   - Moved <features><force_musiclist> to <features><songlist><force_musiclist> and renamed <force_musiclist> to <force_songlist>
+   - Moved <features><sort_maplist> to <features><maplist><sort_maplist> and renamed <sort_maplist> to <sorting>
+   - Moved <features><force_maplist> to <features><maplist><force_maplist>
+   - Removed <scoretable_lists><rebuild_interval>
+   - <images>* updated because www.bilderload.com crashed
+
+ - Bugfix:
+   - [PHP Notice] Undefined index: NiceMode on line 6349 (thanks tyjo)
+
+
+
+
+CHANGES 1.0.1
+~~~~~~~~~~~~~
+ - NOTE: This release require XAseco2/0.95!
+ - Changes:
+  - Include the Support for the brand new ManiaRecords from http://www.maniarecords.org/, get it here:
+    http://www.tm-forum.com/viewtopic.php?f=127&t=28900
+  - Include support for the new ManiaExchange
+  - Now it is possible to include an Image into the WelcomeWindow (thanks biloudeprovence)
+  - Now it is possible to display a <placement> only at a given Gamemode, e.g. only at TimeAttack (thanks TheBigG)
+  - The Karma of a Map for the TopMaps list is now calculated as the same at TM-Karma.com it does
+  - Restyled the Widgets, now it looks like the good old style from TMF (and it is now more configurable)
+  - Included the option to setup a background color for the Records-Widgets (Dedimania-, Gerymania-, Mania-, Local-Records,
+    Live-Ranking and RoundScore) to each row
+  - Optimized the build process of the ClockWidget, now it is enabled in NiceMode too and Players can setup his/her own Timezone
+  - <winning_payout> support enabled
+  - Removed support for <scoretable_lists><top_betwins>
+
+ - Changes in the records_eyepiece.xml:
+   - Adjusted the positons of <local_records> and <live_rankings>
+   - Changed <style><widget_race><border_style> from 'Bgs1InRace' to 'Bgs1' (bugfix)
+   - Changed the Documentation above <welcome_window> (thanks yamyam)
+   - Changed <style><widget_race><top_substyle> from 'BgPlayerCardSmall' to 'BgRacePlayerName'
+   - Changed <style><widget_race><background_style> from 'BgsPlayerCard' to 'Bgs1'
+   - Changed <style><widget_race><background_substyle> from 'BgRacePlayerName' to 'BgEmpty'
+   - Changed <style><widget_race><colors><worse> from '08FF' to 'FB0F'
+   - Added <style><widget_race><colors><background_rank>
+   - Added <style><widget_race><colors><background_score>
+   - Added <style><widget_race><colors><background_name>
+   - Added <style><widget_race><background_color>
+   - Replaced <style><widget_race><colors><focus> with <style><widget_race><background_focus>
+   - Added <welcome_window><image>*
+   - Removed <features><allow_advertise>
+   - Removed the <placement> with the Eyepiece-Logo at Race
+   - Added <eypiece_widget>*
+   - Added <features><karma_min_votes>
+   - Renamed <winning_payout><minimum_server_coppers> to <minimum_server_planets>
+   - Renamed <winning_payout><players><maximum_coppers> to <maximum_planets>
+   - Renamed <winning_payout><pay_coppers> to <pay_planets>
+   - Renamed <winning_payout><colors><coppers> to <planets>
+   - Changed <messages><winnig_mail_body> "coppers" to "Planets"
+   - Renamed <messages><winnig_mail_body> to <winning_mail_body>
+   - Renamed all "Coppers" to "Planets"
+   - Renamed the placeholder %MAP_TMX_PREFIX%, %MAP_TMX_ID%, %MAP_TMX_PAGEURL% to %MAP_MX_PREFIX%, %MAP_MX_ID%, %MAP_MX_PAGEURL%
+   - New options at <placement_widget><placement><display>: 'script', 'rounds', 'time_attack', 'team', 'laps', 'cup' or 'stunts'
+   - Removed <scoretable_lists><top_betwins>
+   - Added <mania_records>*
+
+ - Bugfix:
+   - WelcomeWindow are not displayed if the ServerName has one of <>'&" in his name (thanks yamyam)
+   - The check for required Plugins did not check allowed Widgets in <nicemode>, e.g. <dedimania_records> or <gerymania_records> (thanks Rz-DarK)
+   - Call to undefined function mb_substr(), because mbstring is not a default extension in PHP (thanks Xymph, bass)
+
+
+
+
+CHANGES 1.0.0
+~~~~~~~~~~~~~
+ - Changes:
+   - Added CurrentRankingWidget
+   - WelcomeWindow now supports the place holder {server} which is replaced with the ServerName and {player} with Players Nickname (thanks yamyam)
+
+ - Changes in the records_eyepiece.xml:
+   - Renamed some elements and changed the position/entries of the Widgets (to many for this changelog)
+
+ - Bugfix:
+   - Style of the SubWindow fixed
+   - Did not display the NationFlags in VisitorWindow or TopNation at Score
+
+
+
+CHANGES 0.9.9
+~~~~~~~~~~~~~
+ - NOTE: This release require XAseco2/0.90!
+ - Changes:
+   - All "Track" are renamed to "Map"
+   - Adjust all Widgets and Windows
+
+ - Changes in the records_eyepiece.xml:
+   - Reordered the Gamemodes to the same order from the Dedicated-Server (Script, Rounds, TimeAttack, Team, Laps, Cup and Stunts)
+     and included the new <script>-Mode at <dedimania_records>, <gerymania_records>, <local_records>, <live_rankings> and <round_score>
+     (<script> disabled by default until i know how to use)
